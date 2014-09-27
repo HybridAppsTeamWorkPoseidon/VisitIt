@@ -4,26 +4,24 @@
     <title></title>
     <meta charset="utf-8" />
     <link href="kendo/styles/kendo.mobile.all.min.css" rel="stylesheet" />
-
+    <link href="styles/main.css" rel="stylesheet" />
+    
     <script src="cordova.js"></script>
     <script src="kendo/js/jquery.min.js"></script>
     <script src="kendo/js/kendo.mobile.min.js"></script>
+    
     <script src="scripts/app/app.js"></script>
     
 </head>
-<body>
-    <div data-role="view" id="home-view" data-id="home-view" data-layout="drawer-layout" data-title="Home">
-        Home
-    </div>
-    
+<body> 
     <div data-role="drawer" id="drawer-menu" data-id="drawer-menu" style="width: 270px">
         <ul data-role="listview">
-            <li><a href="#home-view">Home</a></li>
-            <li><a href="#map-view">Map</a></li>
-            <li><a href="#reminder-mode-view">Reminder</a></li>
-            <li><a href="#challenger-mode-view">Challenger</a></li>
-            <li><a href="#spy-mode-view">Spy</a></li>
-            <li><a href="#settings-view">Settings</a></li>
+            <li><a href="views/home-view.html/#home-view">Home</a></li>
+            <li><a href="views/map-view.html/#map-view">Map</a></li>
+            <li><a href="views/reminder-mode-view.html/#reminder-mode-view">Reminder</a></li>
+            <li><a href="views/challenger-mode-view.html/#challenger-mode-view">Challenger</a></li>
+            <li><a href="views/spy-mode-view.html/#spy-mode-view">Spy</a></li>
+            <li><a href="views/settings-view.html/#settings-view">Settings</a></li>
         </ul>
     </div>
     
@@ -32,7 +30,6 @@
             <nav data-role="navbar">
                 <a data-role="button" data-rel="drawer" href="#drawer-menu" data-icon="drawer-button" data-align="left"></a>
                 <span data-role="view-title"></span>
-                <a data-align="right" data-role="button" class="nav-button" href="#/">Index</a>
             </nav>
         </header>
     </div>

@@ -1,5 +1,5 @@
 (function () {
     document.addEventListener("deviceready", function () {
-        var kendoApp = kendo.mobile.Application(document.body);
+        var kendoApp = new kendo.mobile.Application(document.body);
     });
 }());
