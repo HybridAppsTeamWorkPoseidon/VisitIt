@@ -3,26 +3,33 @@
 <head>
     <title></title>
     <meta charset="utf-8" />
+    <link href="kendo/styles/kendo.common.min.css" rel="stylesheet" />
+    <link href="kendo/styles/kendo.default.min.css" rel="stylesheet" />
+    <link href="kendo/styles/kendo.dataviz.min.css" rel="stylesheet" />
+    <link href="kendo/styles/kendo.dataviz.mobile.min.css" rel="stylesheet" />
+    <link href="kendo/styles/kendo.dataviz.default.min.css" rel="stylesheet" />
     <link href="kendo/styles/kendo.mobile.all.min.css" rel="stylesheet" />
     <link href="styles/main.css" rel="stylesheet" />
     
     <script src="cordova.js"></script>
     <script src="kendo/js/jquery.min.js"></script>
     <script src="kendo/js/kendo.mobile.min.js"></script>  
+    <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDQ-5NxrdmgygIUVWtvf64aWHZ-xiOF_SA&sensor=false"></script>
 </head>
 <body> 
     <div data-role="view" id="home-view" data-id="home-view" data-layout="drawer-layout" data-title="Home">
         Home
     </div>
     
-    <div data-role="drawer" id="drawer-menu" data-id="drawer-menu" style="width: 270px">
+    <div data-role="drawer" id="drawer-menu" data-id="drawer-menu" data-click="click" style="width: 270px">
         <ul data-role="listview">
-            <li><a href="#home-view">Home</a></li>
-            <li><a href="views/map-view.html">Map</a></li>
+            <li id="home"><a href="#home-view">Home</a></li>
+            <li id="map"><a href="views/map-view.html">Map</a></li>
             <li><a href="views/reminder-mode-view.html">Reminder</a></li>
             <li><a href="views/challenger-mode-view.html">Challenger</a></li>
             <li><a href="views/spy-mode-view.html">Spy</a></li>
             <li><a href="views/settings-view.html">Settings</a></li>
+            <li id='properties'><a href="views/location-properties-view.html">Properties</a></li>      
         </ul>
     </div>
     
@@ -34,7 +41,6 @@
             </nav>
         </header>
     </div>
-    
     <script src="scripts/app/location.js"></script>
     <script src="scripts/app/app.js"></script>
 </body>
