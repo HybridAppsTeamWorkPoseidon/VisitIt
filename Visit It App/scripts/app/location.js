@@ -1,8 +1,5 @@
-window.Location = (function () {
-    function Location(longitude, latitude) {
-        this.longitude = longitude;
-        this.latitude = latitude;
-    }
-    
-    return Location;
-}());
+var app = app || {};
+app.viewmodels = app.viewmodels || {};
+
+(function (scope) {
+}(app.viewmodels));

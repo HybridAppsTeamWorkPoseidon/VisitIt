@@ -1,7 +1,9 @@
 var app = app || {};
-app.viewmodels = app.viewmodels || {};
 
 (function (scope) {
+	var marker;
+	var isPropertiesViewOpened;
+	
     function initialize() {
 		navigator.geolocation.getCurrentPosition(onSuccess, onError);
     }
@@ -37,7 +39,7 @@ app.viewmodels = app.viewmodels || {};
 	}
 	
 	function placeMarker(location, map) {
-		var marker = new google.maps.Marker({
+		marker = new google.maps.Marker({
 		  position: location,
 		  map: map,
 		  openInfoWindowHtml: "here i am"
@@ -55,15 +57,25 @@ app.viewmodels = app.viewmodels || {};
 	}
 	
 	function onMarkerConfirm(buttonIndex) {
-			switch(buttonIndex){
-				case 1: kendoApp.navigate('views/location-properties-view.html');
-					break;
-				case 2: marker.setMap(null);
-					break;        
-			}
+		if ( buttonIndex == 1) {
+			isPropertiesViewOpened = true;
+			$("#location-properties-modalview").data("kendoMobileModalView").open();
+		} 
+		else if (buttonIndex == 2) {
+			cancelMarkerAddition();
 		}
+	}
+	
+	function cancelMarkerAddition() {
+		marker.setMap(null);
+		
+		if (isPropertiesViewOpened) {
+			$("#location-properties-modalview").kendoMobileModalView("close");
+		}
+	}
 	
     scope.googleMaps = {
-        initialize: initialize
+        initialize: initialize,
+		cancelMarkerAddition: cancelMarkerAddition
     };
-}(app.viewmodels));
+}(app));

@@ -11,11 +11,13 @@
     <script src="kendo/js/kendo.mobile.min.js"></script>
 </head>
 <body> 
-    <div data-role="view" id="home-view" data-id="home-view" data-layout="drawer-layout" data-title="Home">
+    <div data-role="view" id="home-view" data-id="home-view" 
+		 data-layout="drawer-layout" data-title="Home">
         Home
     </div>
     
-    <div data-role="drawer" id="drawer-menu" data-id="drawer-menu" data-click="click" style="width: 270px">
+    <div data-role="drawer" id="drawer-menu" data-id="drawer-menu" 
+		 data-click="click" style="width: 270px">
         <ul data-role="listview">
             <li><a href="#home-view">Home</a></li>
             <li><a href="views/map-view.html">Map</a></li>
@@ -29,7 +31,8 @@
     <div data-role="layout" data-id="drawer-layout">
         <header data-role="header">
             <nav data-role="navbar">
-                <a data-role="button" data-rel="drawer" href="#drawer-menu" data-icon="drawer-button" data-align="left"></a>
+                <a data-role="button" data-rel="drawer" href="#drawer-menu" 
+				   data-icon="drawer-button" data-align="left"></a>
                 <span data-role="view-title"></span>
             </nav>
         </header>

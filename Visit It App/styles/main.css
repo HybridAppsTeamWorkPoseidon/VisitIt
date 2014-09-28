@@ -1,3 +1,5 @@
-.km-drawer-button:before, .km-drawer-button:after  { content: "\E077"; }
-option { color:blue; }
+.km-drawer-button:before, .km-drawer-button:after 
+{ 
+	content: "\E077"; 
+}
 
