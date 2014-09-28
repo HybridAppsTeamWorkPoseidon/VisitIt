@@ -3,9 +3,18 @@ app.viewmodels = app.viewmodels || {};
 
 (function (scope) {
     function initialize() {
+		navigator.geolocation.getCurrentPosition(onSuccess, onError);
+    }
+    
+	function onSuccess(position) {
+		var longitude = position.coords.longitude;
+        var latitude = position.coords.latitude;
+        var latLong = new google.maps.LatLng(latitude, longitude)
+    
         var mapOptions = {
-          center: { lat: -34.397, lng: 150.644 },
-          zoom: 8
+            center: latLong,
+            zoom: 16,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
         };
         
         var $mapContainer = $('#map');
@@ -17,8 +26,12 @@ app.viewmodels = app.viewmodels || {};
         
         var map = new google.maps.Map($mapContainer.get(0),
             mapOptions);
-    }
-    
+	}
+	
+	function onError(error) {
+		navigator.notification.alert('code: ' + error.code + '\n' + 'message: ' + error.message);
+	}
+	
     scope.googleMaps = {
         initialize: initialize
     };
