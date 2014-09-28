@@ -21,8 +21,8 @@ app.viewmodels = app.viewmodels || {};
         var parentWidth = $mapContainer.parent().css('width');
         var parentHeight = $mapContainer.parent().parent().css('height');
         
-        $mapContainer.css('width', (parseInt(parentWidth) * 3) + 'px');
-        $mapContainer.css('height', (parseInt(parentHeight) * 3) + 'px');
+        $mapContainer.css('width', (parseInt(parentWidth)) + 'px');
+        $mapContainer.css('height', (parseInt(parentHeight)) + 'px');
         
         var map = new google.maps.Map($mapContainer.get(0),
             mapOptions);
