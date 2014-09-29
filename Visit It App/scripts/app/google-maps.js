@@ -15,12 +15,12 @@ var app = app || {};
 	}
 
 	function openReminderLocation(e) {
+		kendoApp.navigate('views/map-view.html');
 		var id = $(e.target).data('id');
 
 		everlive.data('Reminders')
 			.getById(id)
 			.then(function (data) {
-				kendoApp.navigate('views/map-view.html');
 				var latLong = new google.maps.LatLng(data.result.Location.latitude, data.result.Location.longitude);
 				
 				var mapOptions = {
@@ -53,7 +53,7 @@ var app = app || {};
 		var titleHeight = $('.km-view-title').css('height');
 
 		$mapContainer.css('width', (parseInt(parentWidth)) + 'px');
-		$mapContainer.css('height', (parseInt(parentHeight) - parseInt(titleHeight)) + 'px');
+		$mapContainer.css('height', (parseInt(parentHeight) - parseInt(titleHeight) - 2) + 'px');
 
 		window.map = new google.maps.Map($mapContainer.get(0),
 			mapOptions);

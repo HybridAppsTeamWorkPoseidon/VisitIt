@@ -2,7 +2,7 @@ var app = app || {};
 app.viewmodels = app.viewmodels || {};
 
 (function (scope) {
-    function initialize() {
+    function initialize() {		
 		everlive.data('Reminders')
 			.get()
 			.then(function (data) {				
@@ -13,7 +13,7 @@ app.viewmodels = app.viewmodels || {};
     }
 	
 	function mobileListViewDataBindInit(data) {
-		$("#grouped-listview").kendoMobileListView({
+		$("#listview-home").kendoMobileListView({
 			dataSource: data,
 			template: $('#reminderViewTemplate').html(),
 			fixedHeaders: true

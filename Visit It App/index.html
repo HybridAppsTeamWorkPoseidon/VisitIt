@@ -5,10 +5,6 @@
     <meta charset="utf-8" />
     <link href="kendo/styles/kendo.mobile.all.min.css" rel="stylesheet" />
     <link href="styles/main.css" rel="stylesheet" />
-    
-    <script src="cordova.js"></script>
-    <script src="kendo/js/jquery.min.js"></script>
-    <script src="kendo/js/kendo.mobile.min.js"></script>
 </head>
 <body> 
     <div data-role="drawer" id="drawer-menu" data-id="drawer-menu" 
@@ -35,23 +31,29 @@
     
     <div data-role="view" id="home-view" data-id="home-view" data-layout="main-layout" data-title="Home"
          data-show="app.viewmodels.home.initialize" >
-           <ul id="grouped-listview"></ul>
+           <ul id="listview-home" class="reminders-list"></ul>
     </div>
     
 	<script id="reminderViewTemplate" type="text/x-kendo-template">
-		<img src="#= ModePicUri #" alt="icon" />
-		<div class="inline">
-			<span class="block">#= Title #</span>
-			<span>#= kendo.toString(RemindDate, 'dd.MM.yy, HH:mm') #</span>
+		<div data-enable-swipe="true" data-swipe="reminderControl.deletePrompt">
+			<img src="#= ModePicUri #" alt="icon" />
+			<div class="inline">
+				<span class="block">#= Title #</span>
+				<span>#= kendo.toString(RemindDate, 'dd.MM.yy, HH:mm') #</span>
+			</div>
+			<button data-icon="globe" data-role="button" class="button-right" data-id="#= Id #" data-click="app.googleMaps.openReminderLocation">Map</button>
 		</div>
-	    <button data-icon="globe" data-role="button" class="button-right" data-id="#= Id #" data-click="app.googleMaps.openReminderLocation">Map</button>
 	</script>
-	
+
+	<script src="cordova.js"></script>
+	<script src="kendo/js/jquery.min.js"></script>
+    <script src="kendo/js/kendo.mobile.min.js"></script>
 	<script src="bower_components/everlive/min/everlive.all.min.js"></script>
 	<script src="bower_components/everlive/min/reqwest.min.js"></script>
 	<script src="bower_components/everlive/min/rsvp.min.js"></script>
 	<script src="bower_components/everlive/min/underscore.min.js"></script>
     <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBH5atMlSMfhEVRS_8F9t0i5mbBbC3zWWE&v=3.4"></script>
+	<script src="scripts/app/reminder-control.js"></script>
 	<script src="scripts/app/add-reminder.js"></script>
     <script src="scripts/app/google-maps.js"></script>
     <script src="scripts/app/home-mode.js"></script>
@@ -59,5 +61,6 @@
     <script src="scripts/app/reminder-mode.js"></script>
     <script src="scripts/app/spy-mode.js"></script>
     <script src="scripts/app/app.js"></script>
+	<script src="bower_components/jquery-mobile/jquery.mobile.custom.min.js"></script>
 </body>
 </html>
