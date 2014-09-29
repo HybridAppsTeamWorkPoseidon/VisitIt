@@ -39,7 +39,7 @@ var app = app || {};
                 placeMarker(latLongCurrent, item.mode);
             }
         }
-        
+        placeMarker(latLong, "currentLocation");
 		google.maps.event.addListener(map, 'click', function(event) {
         	createNewMarker(event.latLng);
     	});
@@ -73,6 +73,7 @@ var app = app || {};
             case "Challenger": icon="Images/challenge32x32.png"; break;
             case "Reminder": icon="Images/reminder32x32.png"; break;
             case "Spy": icon="Images/spy32x32.png"; break;
+            case "currentLocation": icon = "Images/currLoc32x32.png"; break
         }
 		marker = new google.maps.Marker({
 		  position: location,
