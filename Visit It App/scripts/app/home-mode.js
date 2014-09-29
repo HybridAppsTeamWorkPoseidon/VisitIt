@@ -18,6 +18,8 @@ app.viewmodels = app.viewmodels || {};
 			template: $('#reminderViewTemplate').html(),
 			fixedHeaders: true
 		});
+		
+		app.reminderControl.addSwipeEventToList();
 	}
     	
     scope.home = {

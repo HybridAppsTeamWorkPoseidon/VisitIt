@@ -11,9 +11,21 @@ var app = app || {};
 			.destroySingle({
 					Id: id
 				},
-				function () {},
+				function () {
+					var parentId = $itemToDelete.parent()[0].id;
+					
+					if (parentId.indexOf('home', parentId.length - 4) !== -1) {
+						app.viewmodels.home.initialize();
+					}
+					else if (parentId.indexOf('reminder', parentId.length - 8) !== -1) {
+						app.viewmodels.reminder.initialize();
+					}
+					else if (parentId.indexOf('spy', parentId.length - 3) !== -1) {
+						app.viewmodels.spy.initialize();
+					}
+				},
 				function (error) {
-					navigator.notificatin.alert('Could not remove reminder.');
+					navigator.notification.alert('Could not remove reminder.');
 				});
 		}
 	}
@@ -24,7 +36,7 @@ var app = app || {};
 
 	function deletePrompt(e) {
 		console.log('swipe');
-		$itemToDelete = $(e.target);
+		$itemToDelete = $(e.sender.element[0]);
 
 		var notificationMessage = 'Are you sure you want to delete this reminder?';
 		var notificationTitle = 'Delete';
@@ -37,7 +49,16 @@ var app = app || {};
 		);
 	}
 	
+	function addSwipeEventToList(){
+		$(".reminders-list li").kendoTouch({
+			enableSwipe: true,	
+			swipe: function (e) {
+				deletePrompt(e);
+			}
+		});
+	}
 	app.reminderControl = {
-		deletePrompt: deletePrompt
+		deletePrompt: deletePrompt,
+		addSwipeEventToList: addSwipeEventToList
 	}
 }(app));

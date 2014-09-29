@@ -30,19 +30,17 @@
     </div>
     
     <div data-role="view" id="home-view" data-id="home-view" data-layout="main-layout" data-title="Home"
-         data-show="app.viewmodels.home.initialize" >
+		 data-show="app.viewmodels.home.initialize">
            <ul id="listview-home" class="reminders-list"></ul>
     </div>
     
 	<script id="reminderViewTemplate" type="text/x-kendo-template">
-		<div data-enable-swipe="true" data-swipe="reminderControl.deletePrompt">
-			<img src="#= ModePicUri #" alt="icon" />
-			<div class="inline">
-				<span class="block">#= Title #</span>
-				<span>#= kendo.toString(RemindDate, 'dd.MM.yy, HH:mm') #</span>
-			</div>
-			<button data-icon="globe" data-role="button" class="button-right" data-id="#= Id #" data-click="app.googleMaps.openReminderLocation">Map</button>
+		<img src="#= ModePicUri #" alt="icon" />
+		<div class="inline">
+			<span class="block">#= Title #</span>
+			<span>#= kendo.toString(RemindDate, 'dd.MM.yy, HH:mm') #</span>
 		</div>
+		<button data-icon="globe" data-role="button" class="button-right" data-id="#= Id #" data-click="app.googleMaps.openReminderLocation">Map</button>
 	</script>
 
 	<script src="cordova.js"></script>
