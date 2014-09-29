@@ -1,5 +1,6 @@
 (function () {
     document.addEventListener("deviceready", function () {
+		window.everlive = new Everlive('QvPBa4veV2mtuzwB');
         window.kendoApp = new kendo.mobile.Application(document.body);   
     });
     
@@ -7,8 +8,4 @@
     if (window.localStorage.getItem('events') == undefined) {
         window.localStorage.setItem('events', JSON.stringify([]));
     }
-    
-    // testing
-    var location = new Location(10, 15);
-    console.log(location.longitude);
 }());

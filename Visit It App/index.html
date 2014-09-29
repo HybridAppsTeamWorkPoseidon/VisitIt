@@ -12,7 +12,7 @@
 </head>
 <body> 
     <div data-role="drawer" id="drawer-menu" data-id="drawer-menu" 
-		 data-click="click" >
+		 data-click="click" data-swipe-to-open="false">
         <ul data-role="listview">
             <li><a href="#home-view">Home</a></li>
             <li><a href="views/map-view.html">Map</a></li>
@@ -38,9 +38,20 @@
            <ul id="grouped-listview"></ul>
     </div>
     
+	<script id="reminderViewTemplate" type="text/x-kendo-template">
+		<img src="#= ModePicUri #" alt="icon" />
+		<div class="inline">
+			<span class="block">#= Title #</span>
+			<span>#= kendo.toString(RemindDate, 'dd.MM.yy, HH:mm') #</span>
+		</div>
+	    <a data-icon="globe" data-role="button" class="button-right" data-id="#= Id #">Map</a>
+	</script>
+	
+	<script src="bower_components/everlive/min/everlive.all.min.js"></script>
+	<script src="bower_components/everlive/min/reqwest.min.js"></script>
+	<script src="bower_components/everlive/min/rsvp.min.js"></script>
+	<script src="bower_components/everlive/min/underscore.min.js"></script>
     <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBH5atMlSMfhEVRS_8F9t0i5mbBbC3zWWE&v=3.4"></script>
-	<script src="scripts/app/location.js"></script>
-	<script src="scripts/app/reminder.js"></script>
 	<script src="scripts/app/add-reminder.js"></script>
     <script src="scripts/app/google-maps.js"></script>
     <script src="scripts/app/home-mode.js"></script>

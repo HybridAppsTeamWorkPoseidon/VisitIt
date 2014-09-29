@@ -15,10 +15,14 @@ var app = app || {};
         }
     }
     
+	function openReminderLocation(e) {
+		
+	}
+	
 	function onSuccess(position) {
 		var longitude = position.coords.longitude;
         var latitude = position.coords.latitude;
-        var latLong = new google.maps.LatLng(latitude, longitude)
+        var latLong = new google.maps.LatLng(latitude, longitude);
     
         var mapOptions = {
             center: latLong,
@@ -29,21 +33,31 @@ var app = app || {};
         var $mapContainer = $('#map');
         var parentWidth = $mapContainer.parent().css('width');
         var parentHeight = $mapContainer.parent().parent().css('height');
+		var titleHeight = $('.km-view-title').css('height');
         
         $mapContainer.css('width', (parseInt(parentWidth)) + 'px');
-        $mapContainer.css('height', (parseInt(parentHeight)) + 'px');
+        $mapContainer.css('height', (parseInt(parentHeight) - parseInt(titleHeight)) + 'px');
         
         map = new google.maps.Map($mapContainer.get(0),
             mapOptions);
 		
-        for (var i = 0; i < localStorage.length; i++){
-            var item = JSON.parse(localStorage.getItem(localStorage.key(i)));
-            if(item.hasOwnProperty("text") && item.text != "" && item.datetime !=null){
-                var latLongCurrent = new google.maps.LatLng(item.location.latitude,item.location.longitude);
-                placeMarker(latLongCurrent, item.mode);
-            }
-        }
-        placeMarker(latLong, "currentLocation");
+		everlive.data('Reminders')
+			.get()
+			.then(function (data) {
+				var reminders = data.result;
+				var len = reminders.length;
+				
+				for (var i = 0; i < len; i++)
+				{
+					var current = reminders[i];
+					var latLongCurrent = new google.maps.LatLng(current.Location.latitude, current.Location.longitude);
+                	placeMarker(latLongCurrent, current.ModePic);
+				}
+			}, function (error) {
+				navigator.notification.alert('Could not retrieve reminders.');
+			});
+		
+        placeMarker(latLong, "61bebbd0-47da-11e4-8f65-cd6ac76b676a");
 		google.maps.event.addListener(map, 'click', function(event) {
         	createNewMarker(event.latLng);
     	});
@@ -87,7 +101,7 @@ var app = app || {};
                 || networkState == Connection.CELL_4G) {
             var mobilePlanMessage = "You are using your mobile data plan. Do you want to proceed accessing google maps?";
             var mobilePlanTitle = "Internet connection";
-            var mobilePlanButtons = "Yes, No";
+            var mobilePlanButtons = ['Yes', 'No'];
             navigator.notification.confirm(
 				mobilePlanMessage,  
 				onMobilePlanUsage,            
@@ -109,22 +123,21 @@ var app = app || {};
         }
     }
     
-   function placeMarker(location, mode) {
+   function placeMarker(location, picId) {
         if(location == null){
-           location = new google.maps.LatLng(latitudeMarker,longitudeMarker);
+           location = new google.maps.LatLng(latitudeMarker, longitudeMarker);
         }
-        var icon = "";
-        switch(mode){
-            case "Challenger": icon="Images/challenge32x32.png"; break;
-            case "Reminder": icon="Images/reminder32x32.png"; break;
-            case "Spy": icon="Images/spy32x32.png"; break;
-            case "currentLocation": icon = "Images/currLoc32x32.png"; break
-        }
-		marker = new google.maps.Marker({
-		  position: location,
-		  map: map,
-          icon: icon
-		});
+	 
+		everlive.Files.getById(picId)
+			.then(function (data) {			
+				marker = new google.maps.Marker({
+				    position: location,
+				    map: map,
+				    icon: data.result.Uri
+				});
+			}, function (error) {
+				navigator.notification.alert('Could not retrieve icon.');
+			});
 	}
 	
 	function onMarkerConfirm(buttonIndex) {

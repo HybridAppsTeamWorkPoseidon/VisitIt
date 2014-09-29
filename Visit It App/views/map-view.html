@@ -1,5 +1,5 @@
 <div data-role="view" id="map-view" data-id="map-view" data-layout="main-layout" data-title="Map"
-     data-show="app.googleMaps.initialize">
+     data-init="app.googleMaps.initialize">
     <div id="map"></div>
 </div>
 
@@ -29,7 +29,7 @@
 		</li>
 		<li>
 			<label>Date
-				<input id="datepicker" data-bind="value: datetime" type="datetime-local" />
+				<input id="datepicker" data-bind="value: remindDate" type="datetime-local" />
 			</label>
 		</li>
 		<li>
