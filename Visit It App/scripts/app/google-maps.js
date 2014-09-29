@@ -5,10 +5,14 @@ var app = app || {};
 	var marker;
 	var isPropertiesViewOpened;
 	var longitudeMarker;
-    var latitudeMarker;    
+    var latitudeMarker;   
+    var allowConnection;
     
     function initialize() {
-		navigator.geolocation.getCurrentPosition(onSuccess, onError);
+        checkConnection();
+        if(allowConnection){
+		    navigator.geolocation.getCurrentPosition(onSuccess, onError);
+        }
     }
     
 	function onSuccess(position) {
@@ -63,7 +67,48 @@ var app = app || {};
 				notificationButtons          // buttonLabels
 		);
 	}
-        
+    
+    function checkConnection() {
+        var networkState = navigator.network.connection.type;       
+        if(networkState == Connection.NONE || networkState == Connection.UNKNOWN){
+            allowConnection = false;
+            var noConnectionMessage = 'You have no internet connection';
+            var noConnectionTitle = 'No connectivity!';
+            var noConnectionButton = 'Dismiss';
+            navigator.notification.alert(
+                noConnectionMessage,  
+                null,         
+                noConnectionTitle,           
+                noConnectionButton                 
+            );
+
+        }
+        else if(networkState == Connection.CELL_2G || networkState == Connection.CELL_3G 
+                || networkState == Connection.CELL_4G) {
+            var mobilePlanMessage = "You are using your mobile data plan. Do you want to proceed accessing google maps?";
+            var mobilePlanTitle = "Internet connection";
+            var mobilePlanButtons = "Yes, No";
+            navigator.notification.confirm(
+				mobilePlanMessage,  
+				onMobilePlanUsage,            
+				mobilePlanTitle,       
+				mobilePlanButtons     
+		    );
+        }
+        else if(networkState == Connection.WIFI){
+            allowConnection = true;
+        } 
+    }
+    
+    function onMobilePlanUsage(buttonIndex) {
+        if(buttonIndex == 1){
+            allowConnection = true;
+        }
+        else if(buttonIndex == 2){
+            allowConnection = false;
+        }
+    }
+    
    function placeMarker(location, mode) {
         if(location == null){
            location = new google.maps.LatLng(latitudeMarker,longitudeMarker);
