@@ -1,9 +1,12 @@
 var app = app || {};
 
 (function (scope) {
+    var map;
 	var marker;
 	var isPropertiesViewOpened;
-	
+	var longitudeMarker;
+    var latitudeMarker;    
+    
     function initialize() {
 		navigator.geolocation.getCurrentPosition(onSuccess, onError);
     }
@@ -26,11 +29,19 @@ var app = app || {};
         $mapContainer.css('width', (parseInt(parentWidth)) + 'px');
         $mapContainer.css('height', (parseInt(parentHeight)) + 'px');
         
-        var map = new google.maps.Map($mapContainer.get(0),
+        map = new google.maps.Map($mapContainer.get(0),
             mapOptions);
 		
+        for (var i = 0; i < localStorage.length; i++){
+            var item = JSON.parse(localStorage.getItem(localStorage.key(i)));
+            if(item.hasOwnProperty("text") && item.text != "" && item.datetime !=null){
+                var latLongCurrent = new google.maps.LatLng(item.location.latitude,item.location.longitude);
+                placeMarker(latLongCurrent, item.mode);
+            }
+        }
+        
 		google.maps.event.addListener(map, 'click', function(event) {
-        	placeMarker(event.latLng, map);
+        	createNewMarker(event.latLng);
     	});
 	}
 	
@@ -38,12 +49,9 @@ var app = app || {};
 		navigator.notification.alert('code: ' + error.code + '\n' + 'message: ' + error.message);
 	}
 	
-	function placeMarker(location, map) {
-		marker = new google.maps.Marker({
-		  position: location,
-		  map: map,
-		  openInfoWindowHtml: "here i am"
-		});
+	function createNewMarker(location) {
+        longitudeMarker = location.lng();
+        latitudeMarker = location.lat();    
 		
 		var notificationMessage = 'Do you want to add new location at this spot?';
 		var notificationTitle = 'Add location';
@@ -55,11 +63,31 @@ var app = app || {};
 				notificationButtons          // buttonLabels
 		);
 	}
+        
+   function placeMarker(location, mode) {
+        if(location == null){
+           location = new google.maps.LatLng(latitudeMarker,longitudeMarker);
+        }
+        var icon = "";
+        switch(mode){
+            case "Challenger": icon="Images/challenge32x32.png"; break;
+            case "Reminder": icon="Images/reminder32x32.png"; break;
+            case "Spy": icon="Images/spy32x32.png"; break;
+        }
+		marker = new google.maps.Marker({
+		  position: location,
+		  map: map,
+          icon: icon
+		});
+	}
 	
 	function onMarkerConfirm(buttonIndex) {
 		if ( buttonIndex == 1) {
 			isPropertiesViewOpened = true;
 			$("#location-properties-modalview").data("kendoMobileModalView").open();
+            
+            $("#longitude").text(longitudeMarker);
+            $("#latitude").text(latitudeMarker);
 		} 
 		else if (buttonIndex == 2) {
 			cancelMarkerAddition();
@@ -75,6 +103,7 @@ var app = app || {};
 	}
 	
     scope.googleMaps = {
+        placeMarker: placeMarker,
         initialize: initialize,
 		cancelMarkerAddition: cancelMarkerAddition
     };

@@ -1,6 +1,6 @@
 (function () {
     document.addEventListener("deviceready", function () {
-        window.kendoApp = new kendo.mobile.Application(document.body); 
+        window.kendoApp = new kendo.mobile.Application(document.body);   
     });
     
     // Initialize tasks storage place if started for the first time

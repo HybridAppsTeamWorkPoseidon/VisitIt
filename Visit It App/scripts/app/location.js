@@ -6,3 +6,8 @@ window.Location = (function () {
     
     return Location;
 }());
+
+function saveReminder() {
+    console.log("work");
+    
+}
