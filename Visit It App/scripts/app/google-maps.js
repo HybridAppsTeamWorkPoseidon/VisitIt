@@ -6,34 +6,23 @@ var app = app || {};
 	var longitudeMarker;
 	var latitudeMarker;
 	var allowConnection;
-	
-	function initialize() {
-		checkConnection();
-		if (allowConnection) {
-			navigator.geolocation.getCurrentPosition(onSuccess, onError);
-		}
-	}
+	var currentLocationMarker;
 
-	function openReminderLocation(e) {
-		kendoApp.navigate('views/map-view.html');
-		var id = $(e.target).data('id');
+	function configureWatchingLocation() {
+		navigator.geolocation.watchPosition(function (position) {
+			currentLocationMarker.setPosition(
+				new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
+		});
+		
+		var compassOptions = {
+			frequency: 3000
+		};
 
-		everlive.data('Reminders')
-			.getById(id)
-			.then(function (data) {
-				var latLong = new google.maps.LatLng(data.result.Location.latitude, data.result.Location.longitude);
-				
-				var mapOptions = {
-					center: latLong,
-					zoom: 16,
-					mapTypeId: google.maps.MapTypeId.ROADMAP
-				};
-				
-				window.map.setOptions(mapOptions);
-			}, function (error) {
-				navigator.notification.vibrate();
-				navigator.notification.alert('Could not find reminder.');
-			});
+		navigator.compass.watchHeading(function (heading) {
+			
+		}, function (error) {
+			navigator.notification.alert('Compass error: ' + compassError.code);
+		}, compassOptions);
 	}
 
 	function onSuccess(position) {
@@ -73,10 +62,23 @@ var app = app || {};
 				navigator.notification.alert('Could not retrieve reminders.');
 			});
 
-		placeMarker(latLong, "61bebbd0-47da-11e4-8f65-cd6ac76b676a");
+		everlive.Files.getById('61bebbd0-47da-11e4-8f65-cd6ac76b676a')
+			.then(function (data) {
+				currentLocationMarker = new google.maps.Marker({
+					position: latLong,
+					map: window.map,
+					icon: data.result.Uri
+				});
+			}, function (error) {
+				navigator.notification.alert('Could not retrieve icon.');
+			});
+		
 		google.maps.event.addListener(window.map, 'click', function (event) {
 			createNewMarker(event.latLng);
 		});
+		
+		configureWatchingLocation();
+		
 	}
 
 	function onError(error) {
@@ -135,6 +137,26 @@ var app = app || {};
 		}
 	}
 
+	function onMarkerConfirm(buttonIndex) {
+		if (buttonIndex == 1) {
+			isPropertiesViewOpened = true;
+			$("#location-properties-modalview").data("kendoMobileModalView").open();
+
+			$("#longitude").text(longitudeMarker);
+			$("#latitude").text(latitudeMarker);
+		} else if (buttonIndex == 2) {
+			cancelMarkerAddition();
+		}
+	}
+
+	function showCurrentLocation() {
+		navigator.geolocation.getCurrentPosition(function (position) {
+			kendoApp.navigate('views/map-view.html');
+			var currentPosition = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+			window.map.panTo(currentPosition);
+		});
+	}
+	
 	function placeMarker(location, picId) {
 		if (location == null) {
 			location = new google.maps.LatLng(latitudeMarker, longitudeMarker);
@@ -151,19 +173,7 @@ var app = app || {};
 				navigator.notification.alert('Could not retrieve icon.');
 			});
 	}
-
-	function onMarkerConfirm(buttonIndex) {
-		if (buttonIndex == 1) {
-			isPropertiesViewOpened = true;
-			$("#location-properties-modalview").data("kendoMobileModalView").open();
-
-			$("#longitude").text(longitudeMarker);
-			$("#latitude").text(latitudeMarker);
-		} else if (buttonIndex == 2) {
-			cancelMarkerAddition();
-		}
-	}
-
+	
 	function cancelMarkerAddition() {
 		marker.setMap(null);
 
@@ -171,11 +181,40 @@ var app = app || {};
 			$("#location-properties-modalview").kendoMobileModalView("close");
 		}
 	}
+	function initialize() {
+		checkConnection();
+		if (allowConnection) {
+			navigator.geolocation.getCurrentPosition(onSuccess, onError);
+		}
+	}
+
+	function openReminderLocation(e) {
+		kendoApp.navigate('views/map-view.html');
+		var id = $(e.target).data('id');
+
+		everlive.data('Reminders')
+			.getById(id)
+			.then(function (data) {
+				var latLong = new google.maps.LatLng(data.result.Location.latitude, data.result.Location.longitude);
+
+				var mapOptions = {
+					center: latLong,
+					zoom: 16,
+					mapTypeId: google.maps.MapTypeId.ROADMAP
+				};
+
+				window.map.setOptions(mapOptions);
+			}, function (error) {
+				navigator.notification.vibrate();
+				navigator.notification.alert('Could not find reminder.');
+			});
+	}
 	
 	scope.googleMaps = kendo.observable({
 		placeMarker: placeMarker,
 		initialize: initialize,
 		cancelMarkerAddition: cancelMarkerAddition,
-		openReminderLocation: openReminderLocation
+		openReminderLocation: openReminderLocation,
+		showCurrentLocation: showCurrentLocation
 	});
 }(app));
