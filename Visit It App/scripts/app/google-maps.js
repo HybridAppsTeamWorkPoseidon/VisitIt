@@ -6,7 +6,7 @@ var app = app || {};
 	var longitudeMarker;
 	var latitudeMarker;
 	var allowConnection;
-
+	
 	function initialize() {
 		checkConnection();
 		if (allowConnection) {
@@ -171,7 +171,7 @@ var app = app || {};
 			$("#location-properties-modalview").kendoMobileModalView("close");
 		}
 	}
-
+	
 	scope.googleMaps = kendo.observable({
 		placeMarker: placeMarker,
 		initialize: initialize,
