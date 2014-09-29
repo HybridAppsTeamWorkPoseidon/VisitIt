@@ -44,7 +44,7 @@
 			<span class="block">#= Title #</span>
 			<span>#= kendo.toString(RemindDate, 'dd.MM.yy, HH:mm') #</span>
 		</div>
-	    <a data-icon="globe" data-role="button" class="button-right" data-id="#= Id #">Map</a>
+	    <button data-icon="globe" data-role="button" class="button-right" data-id="#= Id #" data-click="app.googleMaps.openReminderLocation">Map</button>
 	</script>
 	
 	<script src="bower_components/everlive/min/everlive.all.min.js"></script>
