@@ -2,6 +2,8 @@ var app = app || {};
 app.viewmodels = app.viewmodels || {};
 
 (function (scope) {
+	var listview;
+	
     function initialize() {
 		var filter = new Everlive.Query();
 		filter.where().eq('Mode.Name', 'Reminder');
@@ -16,7 +18,11 @@ app.viewmodels = app.viewmodels || {};
     }
 	
 	function mobileListViewDataBindInit(data) {
-		$("#listview-reminder").kendoMobileListView({
+		if (listview !== undefined) {
+			listview.destroy();	
+		}
+		
+		listview = $("#listview-reminder").kendoMobileListView({
 			dataSource: data,
 			template: $('#reminderViewTemplate').html(),
 			fixedHeaders: true

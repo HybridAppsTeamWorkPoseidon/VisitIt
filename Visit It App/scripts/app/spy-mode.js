@@ -2,6 +2,8 @@ var app = app || {};
 app.viewmodels = app.viewmodels || {};
 
 (function (scope) {
+	var listview;
+	
     function initialize() {
 		var filter = new Everlive.Query();
 		filter.where().eq('Mode.Name', 'Spy');
@@ -16,7 +18,11 @@ app.viewmodels = app.viewmodels || {};
     }
 	
 	function mobileListViewDataBindInit(data) {
-		$("#listview-spy").kendoMobileListView({
+		if (listview !== undefined) {
+			listview.destroy();	
+		}
+		
+		listview = $("#listview-spy").kendoMobileListView({
 			dataSource: data,
 			template: $('#reminderViewTemplate').html(),
 			fixedHeaders: true

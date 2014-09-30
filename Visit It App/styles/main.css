@@ -16,3 +16,23 @@
 .inline {
 	display: inline-block;
 }
+
+.create-button {
+	margin: 0;
+	width: 100%;
+	height: 40px;
+}
+
+.km-list li {
+	border: 0px;
+	border-bottom: 1px solid black;
+	border-style: inset;
+}
+
+.drawer {
+	background: #3F4241;
+}
+
+.drawer .km-list li {
+	color: #FFF;
+}

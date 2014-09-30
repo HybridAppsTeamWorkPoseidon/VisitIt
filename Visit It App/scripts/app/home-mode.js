@@ -2,6 +2,8 @@ var app = app || {};
 app.viewmodels = app.viewmodels || {};
 
 (function (scope) {
+	var listview;
+	
     function initialize() {		
 		everlive.data('Reminders')
 			.get()
@@ -13,7 +15,11 @@ app.viewmodels = app.viewmodels || {};
     }
 	
 	function mobileListViewDataBindInit(data) {
-		$("#listview-home").kendoMobileListView({
+		if (listview !== undefined) {
+			listview.destroy();	
+		}
+		
+		listview = $("#listview-home").kendoMobileListView({
 			dataSource: data,
 			template: $('#reminderViewTemplate').html(),
 			fixedHeaders: true
